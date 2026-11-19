@@ -1,5 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mockConsultations, mockDoctors, child, Consultation } from "@/lib/mock-data";
+import { getDb, saveDb } from "@/lib/server/db";
+import { Consultation } from "@/lib/mock-data";
+
+export async function GET() {
+  const db = getDb();
+  return NextResponse.json({
+    consultations: db.consultations,
+  });
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,7 +26,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const doc = mockDoctors.find((d) => d.id === doctorId);
+    const db = getDb();
+    const doc = db.doctors.find((d) => d.id === doctorId);
     if (!doc) {
       return NextResponse.json({ error: "Doctor not found" }, { status: 404 });
     }
@@ -27,15 +36,16 @@ export async function POST(req: NextRequest) {
       id: `c_${Date.now().toString().slice(-4)}`,
       doctorId: doc.id,
       doctorName: doc.name,
-      childId: childId || child.id,
-      childName: child.name,
+      childId: childId || db.child.id,
+      childName: db.child.name,
       date: bookingDate,
       type: bookingType || "video",
       status: "confirmed",
       createdAt: new Date().toISOString(),
     };
 
-    mockConsultations.unshift(newConsultation);
+    db.consultations.unshift(newConsultation);
+    saveDb(db);
 
     return NextResponse.json({
       success: true,

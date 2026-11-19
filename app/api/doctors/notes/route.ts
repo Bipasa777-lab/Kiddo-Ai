@@ -1,15 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mockClinicianNotes, ClinicianNote } from "@/lib/mock-data";
+import { getDb, saveDb } from "@/lib/server/db";
+import { ClinicianNote } from "@/lib/mock-data";
 
 export async function GET(req: NextRequest) {
   try {
     const { searchParams } = new URL(req.url);
     const childId = searchParams.get("childId") || "child_01";
+    const db = getDb();
 
-    const note = mockClinicianNotes[childId] || {
+    const note = db.clinicianNotes[childId] || {
       id: `cn_${childId}`,
       childId,
-      childName: childId === "child_01" ? "Aarav Sharma" : childId === "p2" ? "Leo Sinclair" : "Maya Patel",
+      childName: childId === "child_01" ? db.child.name : childId === "p2" ? "Leo Sinclair" : "Maya Patel",
       doctorName: "Dr. Sarah Jenkins",
       note: "No clinician notes registered yet.",
       updatedAt: new Date().toISOString(),
@@ -36,16 +38,18 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "childId and note are required" }, { status: 400 });
     }
 
+    const db = getDb();
     const updatedNote: ClinicianNote = {
-      id: mockClinicianNotes[childId]?.id || `cn_${Date.now().toString().slice(-4)}`,
+      id: db.clinicianNotes[childId]?.id || `cn_${Date.now().toString().slice(-4)}`,
       childId,
-      childName: childName || mockClinicianNotes[childId]?.childName || "Child Patient",
+      childName: childName || db.clinicianNotes[childId]?.childName || "Child Patient",
       doctorName: doctorName || "Dr. Sarah Jenkins",
       note,
       updatedAt: new Date().toISOString(),
     };
 
-    mockClinicianNotes[childId] = updatedNote;
+    db.clinicianNotes[childId] = updatedNote;
+    saveDb(db);
 
     return NextResponse.json({
       success: true,

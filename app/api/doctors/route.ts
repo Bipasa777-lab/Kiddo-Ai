@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mockDoctors } from "@/lib/mock-data";
+import { getDb } from "@/lib/server/db";
 
 export async function GET(req: NextRequest) {
   try {
@@ -7,7 +7,8 @@ export async function GET(req: NextRequest) {
     const category = searchParams.get("category");
     const query = searchParams.get("query")?.toLowerCase();
 
-    let result = [...mockDoctors];
+    const db = getDb();
+    let result = [...db.doctors];
 
     if (category && category !== "all") {
       result = result.filter((d) => d.category === category);

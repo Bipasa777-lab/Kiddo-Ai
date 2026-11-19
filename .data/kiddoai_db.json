@@ -1,0 +1,1057 @@
+{
+  "child": {
+    "id": "child_01",
+    "name": "Aarav Sharma",
+    "age": 12,
+    "avatar": "🧑",
+    "device": "iPhone 13 · iOS 18",
+    "wellbeingScore": 73,
+    "wellbeingTrend": -4
+  },
+  "weeklyScreenTime": [
+    {
+      "day": "Mon",
+      "hours": 4.2,
+      "education": 1.1,
+      "social": 1.4,
+      "gaming": 1.2,
+      "entertainment": 0.5
+    },
+    {
+      "day": "Tue",
+      "hours": 3.8,
+      "education": 1.3,
+      "social": 1.1,
+      "gaming": 1,
+      "entertainment": 0.4
+    },
+    {
+      "day": "Wed",
+      "hours": 5.1,
+      "education": 0.9,
+      "social": 1.8,
+      "gaming": 1.6,
+      "entertainment": 0.8
+    },
+    {
+      "day": "Thu",
+      "hours": 4.6,
+      "education": 1.4,
+      "social": 1.3,
+      "gaming": 1.1,
+      "entertainment": 0.8
+    },
+    {
+      "day": "Fri",
+      "hours": 6.2,
+      "education": 0.8,
+      "social": 2.1,
+      "gaming": 2.3,
+      "entertainment": 1
+    },
+    {
+      "day": "Sat",
+      "hours": 7.4,
+      "education": 0.3,
+      "social": 2.4,
+      "gaming": 3.1,
+      "entertainment": 1.6
+    },
+    {
+      "day": "Sun",
+      "hours": 6,
+      "education": 0.6,
+      "social": 2,
+      "gaming": 2.2,
+      "entertainment": 1.2
+    }
+  ],
+  "appUsage": [
+    {
+      "app": "YouTube",
+      "time": "2h 15m",
+      "minutes": 135,
+      "percentage": 28,
+      "color": "#EF4444"
+    },
+    {
+      "app": "WhatsApp",
+      "time": "1h 10m",
+      "minutes": 70,
+      "percentage": 15,
+      "color": "#22C55E"
+    },
+    {
+      "app": "Instagram",
+      "time": "1h 00m",
+      "minutes": 60,
+      "percentage": 13,
+      "color": "#EC4899"
+    },
+    {
+      "app": "Chrome",
+      "time": "0h 50m",
+      "minutes": 50,
+      "percentage": 10,
+      "color": "#F59E0B"
+    },
+    {
+      "app": "Minecraft",
+      "time": "0h 40m",
+      "minutes": 40,
+      "percentage": 8,
+      "color": "#22C55E"
+    },
+    {
+      "app": "Google Classroom",
+      "time": "0h 35m",
+      "minutes": 35,
+      "percentage": 7,
+      "color": "#2563EB"
+    },
+    {
+      "app": "Spotify",
+      "time": "0h 25m",
+      "minutes": 25,
+      "percentage": 5,
+      "color": "#06B6D4"
+    },
+    {
+      "app": "Others",
+      "time": "0h 20m",
+      "minutes": 20,
+      "percentage": 4,
+      "color": "#94A3B8"
+    },
+    {
+      "app": "Kiddo GPS Tracker",
+      "minutes": 45,
+      "time": "0h 45m",
+      "percentage": 9,
+      "color": "#EC4899",
+      "category": "utility"
+    }
+  ],
+  "moodJournal": [
+    {
+      "day": "Mon",
+      "mood": "😊",
+      "score": 4
+    },
+    {
+      "day": "Tue",
+      "mood": "😐",
+      "score": 3
+    },
+    {
+      "id": "mood_1794945320958",
+      "day": "Wed",
+      "mood": "😴",
+      "score": 2,
+      "note": "Parent observed mood: Exhausted",
+      "date": "2026-11-17T19:55:20.958Z"
+    },
+    {
+      "id": "mood_1795076916834",
+      "day": "Thu",
+      "mood": "😡",
+      "score": 1,
+      "note": "Logged from Child Companion: Angry",
+      "date": "2026-11-19T08:28:36.834Z"
+    },
+    {
+      "day": "Fri",
+      "mood": "😴",
+      "score": 3
+    },
+    {
+      "day": "Sat",
+      "mood": "😊",
+      "score": 5
+    },
+    {
+      "day": "Sun",
+      "mood": "😡",
+      "score": 2
+    }
+  ],
+  "riskAlerts": [
+    {
+      "id": "r_1795074328348",
+      "childId": "child_01",
+      "title": "High risk: Child departed school safe zone earlier than expected (13:00)",
+      "detail": "Child departed school safe zone earlier than expected (13:00).",
+      "level": "high",
+      "confidence": 89,
+      "suggestedAction": "Check in with the school office or send a gentle text to verify an early dismissal.",
+      "researchCitation": "Physical safety and geofence monitoring telemetry.",
+      "timestamp": "Just now",
+      "createdAt": "2026-11-19T07:45:28.348Z",
+      "status": "active"
+    },
+    {
+      "id": "r_1795074278029",
+      "childId": "child_01",
+      "title": "High risk: Child departed school safe zone earlier than expected (13:00)",
+      "detail": "Child departed school safe zone earlier than expected (13:00).",
+      "level": "high",
+      "confidence": 89,
+      "suggestedAction": "Check in with the school office or send a gentle text to verify an early dismissal.",
+      "researchCitation": "Physical safety and geofence monitoring telemetry.",
+      "timestamp": "Just now",
+      "createdAt": "2026-11-19T07:44:38.029Z",
+      "status": "active"
+    },
+    {
+      "id": "r_1795074265449",
+      "childId": "child_01",
+      "title": "High risk: Child departed school safe zone earlier than expected (13:00)",
+      "detail": "Child departed school safe zone earlier than expected (13:00).",
+      "level": "high",
+      "confidence": 89,
+      "suggestedAction": "Check in with the school office or send a gentle text to verify an early dismissal.",
+      "researchCitation": "Physical safety and geofence monitoring telemetry.",
+      "timestamp": "Just now",
+      "createdAt": "2026-11-19T07:44:25.449Z",
+      "status": "active"
+    },
+    {
+      "id": "r1",
+      "childId": "child_01",
+      "title": "Late-night phone use detected",
+      "detail": "Screen activity logged past midnight for 5 of the last 7 nights.",
+      "level": "high",
+      "confidence": 93,
+      "suggestedAction": "Discuss a healthy bedtime routine and consider a device curfew.",
+      "researchCitation": "PMC5658795 & PMC5839336 (Late-night blue light and digital media shorten sleep in adolescents)",
+      "timestamp": "2 hours ago",
+      "createdAt": "2026-11-17T15:54:48.139Z",
+      "status": "resolved",
+      "parentFeedback": "Had a calm 1-on-1 bedtime talk",
+      "resolutionOutcome": "improved",
+      "resolvedAt": "2026-11-18T22:01:16.171Z"
+    },
+    {
+      "id": "r2",
+      "childId": "child_01",
+      "title": "Gaming time trending up",
+      "detail": "Gaming rose 38% week-over-week, concentrated on weekends.",
+      "level": "medium",
+      "confidence": 81,
+      "suggestedAction": "Set a shared weekend screen-time goal together.",
+      "researchCitation": "PMC4851593 (Screen time spikes correlated with attention & mood shifts)",
+      "timestamp": "Yesterday",
+      "createdAt": "2026-11-17T15:54:48.139Z",
+      "status": "resolved",
+      "parentFeedback": "Set up 9:30 PM hallway charging agreement",
+      "resolutionOutcome": "improved",
+      "resolvedAt": "2026-11-18T22:01:25.799Z"
+    },
+    {
+      "id": "r3",
+      "childId": "child_01",
+      "title": "Positive conversation pattern",
+      "detail": "AI Coach sessions this week were mostly encouraging and low-stress.",
+      "level": "low",
+      "confidence": 88,
+      "suggestedAction": "No action needed — keep the current routine.",
+      "researchCitation": "Healthy habit baseline",
+      "timestamp": "3 days ago",
+      "createdAt": "2026-11-17T15:54:48.139Z",
+      "status": "resolved",
+      "parentFeedback": "Set up 9:30 PM hallway charging agreement",
+      "resolutionOutcome": "improved",
+      "resolvedAt": "2026-11-18T22:01:35.285Z"
+    }
+  ],
+  "interventions": [
+    {
+      "id": "int_01",
+      "alertId": "r1",
+      "childId": "child_01",
+      "timestamp": "2026-11-17T17:54:48.139Z",
+      "triggerEvent": "Late-night screen use detected past midnight",
+      "coachNudge": "Hey Aarav, getting good rest powers your brain tomorrow! Let's wind down.",
+      "childAcknowledged": true,
+      "childResponseText": "Okay Kiddo, putting phone on charging dock.",
+      "parentAlertDispatched": true,
+      "parentActionSuggested": "Discuss a healthy bedtime routine and consider a device curfew.",
+      "parentActionTaken": "Created a shared 9:30 PM device charging agreement in the kitchen.",
+      "outcome": "improved"
+    },
+    {
+      "id": "int_1795074265449",
+      "alertId": "r_1795074265449",
+      "childId": "child_01",
+      "timestamp": "2026-11-19T07:44:25.449Z",
+      "triggerEvent": "Child departed school safe zone earlier than expected (13:00).",
+      "coachNudge": "Hey Aarav, hope everything is okay! Did school dismiss early today?",
+      "childAcknowledged": false,
+      "parentAlertDispatched": true,
+      "parentActionSuggested": "Check in with the school office or send a gentle text to verify an early dismissal.",
+      "outcome": "pending"
+    },
+    {
+      "id": "int_1795074278029",
+      "alertId": "r_1795074278029",
+      "childId": "child_01",
+      "timestamp": "2026-11-19T07:44:38.029Z",
+      "triggerEvent": "Child departed school safe zone earlier than expected (13:00).",
+      "coachNudge": "Hey Aarav, hope everything is okay! Did school dismiss early today?",
+      "childAcknowledged": false,
+      "parentAlertDispatched": true,
+      "parentActionSuggested": "Check in with the school office or send a gentle text to verify an early dismissal.",
+      "outcome": "pending"
+    },
+    {
+      "id": "int_1795074328348",
+      "alertId": "r_1795074328348",
+      "childId": "child_01",
+      "timestamp": "2026-11-19T07:45:28.348Z",
+      "triggerEvent": "Child departed school safe zone earlier than expected (13:00).",
+      "coachNudge": "Hey Aarav, hope everything is okay! Did school dismiss early today?",
+      "childAcknowledged": false,
+      "parentAlertDispatched": true,
+      "parentActionSuggested": "Check in with the school office or send a gentle text to verify an early dismissal.",
+      "outcome": "pending"
+    }
+  ],
+  "safeZones": [
+    {
+      "id": "zone_home",
+      "name": "Home",
+      "type": "home",
+      "status": "left",
+      "lastEvent": "Left 01:52 PM",
+      "address": "742 Evergreen Terrace, San Francisco, CA",
+      "lat": 37.7749,
+      "lng": -122.4194,
+      "radiusMeters": 250,
+      "notifyOnEntry": true,
+      "notifyOnExit": true
+    },
+    {
+      "id": "zone_school",
+      "name": "Oakwood High School",
+      "type": "school",
+      "status": "left",
+      "lastEvent": "Left 01:51 PM",
+      "address": "450 Academic Way, San Francisco, CA",
+      "lat": 37.7845,
+      "lng": -122.4085,
+      "radiusMeters": 350,
+      "notifyOnEntry": true,
+      "notifyOnExit": true
+    },
+    {
+      "id": "zone_tuition",
+      "name": "Science Tuition Center",
+      "type": "tuition",
+      "status": "left",
+      "lastEvent": "Left 01:51 PM",
+      "address": "120 Discovery Blvd, Suite 300, San Francisco, CA",
+      "lat": 37.7892,
+      "lng": -122.4014,
+      "radiusMeters": 200,
+      "notifyOnEntry": true,
+      "notifyOnExit": true
+    },
+    {
+      "id": "zone_park",
+      "name": "City Central Park",
+      "type": "park",
+      "status": "left",
+      "lastEvent": "Left 01:51 PM",
+      "address": "Central Park Recreation Grounds, San Francisco, CA",
+      "lat": 37.769,
+      "lng": -122.4467,
+      "radiusMeters": 400,
+      "notifyOnEntry": false,
+      "notifyOnExit": true
+    }
+  ],
+  "locationTimeline": [
+    {
+      "id": "loc_1795076563487",
+      "time": "01:52 PM",
+      "timestamp": "2026-11-19T08:22:43.487Z",
+      "place": "Oakwood High School",
+      "event": "Left Oakwood High School",
+      "lat": 37.789500000000004,
+      "lng": -122.40350000000001,
+      "batteryLevel": 84,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_1795076511735",
+      "time": "01:51 PM",
+      "timestamp": "2026-11-19T08:21:51.735Z",
+      "place": "Home",
+      "event": "Reached Home",
+      "lat": 37.7749,
+      "lng": -122.4194,
+      "batteryLevel": 84,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_1795076507157",
+      "time": "01:51 PM",
+      "timestamp": "2026-11-19T08:21:47.157Z",
+      "place": "City Central Park",
+      "event": "Reached City Central Park",
+      "lat": 37.769,
+      "lng": -122.4467,
+      "batteryLevel": 84,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_1795076504783",
+      "time": "01:51 PM",
+      "timestamp": "2026-11-19T08:21:44.783Z",
+      "place": "Oakwood High School",
+      "event": "Reached Oakwood High School",
+      "lat": 37.7845,
+      "lng": -122.4085,
+      "batteryLevel": 84,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_1795076501785",
+      "time": "01:51 PM",
+      "timestamp": "2026-11-19T08:21:41.785Z",
+      "place": "Home",
+      "event": "Reached Home",
+      "lat": 37.7749,
+      "lng": -122.4194,
+      "batteryLevel": 84,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_1795076499525",
+      "time": "01:51 PM",
+      "timestamp": "2026-11-19T08:21:39.525Z",
+      "place": "Science Tuition Center",
+      "event": "Reached Science Tuition Center",
+      "lat": 37.7892,
+      "lng": -122.4014,
+      "batteryLevel": 84,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_1",
+      "time": "5:42 PM",
+      "timestamp": "2026-11-19T08:21:39.509Z",
+      "place": "Home",
+      "event": "Reached Home",
+      "lat": 37.7749,
+      "lng": -122.4194,
+      "batteryLevel": 84,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_2",
+      "time": "5:10 PM",
+      "timestamp": "2026-11-19T07:49:39.509Z",
+      "place": "Science Tuition Center",
+      "event": "Left Safe Zone",
+      "lat": 37.7892,
+      "lng": -122.4014,
+      "batteryLevel": 86,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_3",
+      "time": "3:52 PM",
+      "timestamp": "2026-11-19T06:31:39.509Z",
+      "place": "Science Tuition Center",
+      "event": "Entered Safe Zone",
+      "lat": 37.7892,
+      "lng": -122.4014,
+      "batteryLevel": 88,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_4",
+      "time": "3:15 PM",
+      "timestamp": "2026-11-19T05:54:39.509Z",
+      "place": "Oakwood High School",
+      "event": "Left School",
+      "lat": 37.7845,
+      "lng": -122.4085,
+      "batteryLevel": 91,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_5",
+      "time": "8:24 AM",
+      "timestamp": "2026-11-18T23:05:39.509Z",
+      "place": "Oakwood High School",
+      "event": "Reached School",
+      "lat": 37.7845,
+      "lng": -122.4085,
+      "batteryLevel": 96,
+      "isAnomaly": false
+    },
+    {
+      "id": "loc_6",
+      "time": "8:02 AM",
+      "timestamp": "2026-11-18T22:43:39.509Z",
+      "place": "Home",
+      "event": "Left Home",
+      "lat": 37.7749,
+      "lng": -122.4194,
+      "batteryLevel": 100,
+      "isAnomaly": false
+    }
+  ],
+  "telemetryEvents": [
+    {
+      "id": "evt_loc_1795074265448",
+      "childId": "child_01",
+      "timestamp": "2026-11-19T07:44:25.448Z",
+      "eventType": "safe_zone",
+      "appName": "Kiddo GPS Tracker",
+      "durationMinutes": 15,
+      "hourOfDay": 13,
+      "category": "utility",
+      "locationPlace": "En Route · Central Transit Corridor",
+      "locationEvent": "Left School Early (01:14 PM)"
+    },
+    {
+      "id": "evt_loc_1795074278029",
+      "childId": "child_01",
+      "timestamp": "2026-11-19T07:44:38.029Z",
+      "eventType": "safe_zone",
+      "appName": "Kiddo GPS Tracker",
+      "durationMinutes": 15,
+      "hourOfDay": 13,
+      "category": "utility",
+      "locationPlace": "Tuition Center",
+      "locationEvent": "Left School Early (01:14 PM)"
+    },
+    {
+      "id": "evt_loc_1795074328348",
+      "childId": "child_01",
+      "timestamp": "2026-11-19T07:45:28.348Z",
+      "eventType": "safe_zone",
+      "appName": "Kiddo GPS Tracker",
+      "durationMinutes": 15,
+      "hourOfDay": 13,
+      "category": "utility",
+      "locationPlace": "Tuition Center",
+      "locationEvent": "Left School Early (01:15 PM)"
+    }
+  ],
+  "chatHistory": [
+    {
+      "id": "msg_init_1",
+      "childId": "child_01",
+      "channel": "child_coach",
+      "role": "assistant",
+      "content": "Hi Aarav! 🌟 I'm Kiddo, your personal companion. Ready for today's adventures?",
+      "timestamp": "2026-11-16T19:54:48.139Z"
+    },
+    {
+      "id": "msg_1794945549755_i2bcj",
+      "childId": "child_01",
+      "channel": "child_coach",
+      "role": "user",
+      "content": "Someone was mean to me at school",
+      "timestamp": "2026-11-17T19:59:09.755Z"
+    },
+    {
+      "id": "msg_1794945549756_fugqp",
+      "childId": "child_01",
+      "channel": "child_coach",
+      "role": "assistant",
+      "content": "Homework can feel like climbing a mountain, Aarav Sharma! 🏔️ What subject are you working on? Let's set a 15-minute timer and knock out just one small problem first.",
+      "timestamp": "2026-11-17T19:59:09.756Z"
+    },
+    {
+      "id": "msg_1795036620409_bbler",
+      "childId": "child_01",
+      "channel": "parent_assistant",
+      "role": "assistant",
+      "content": "Chat history cleared. I'm ready to help with fresh parenting insights, conversation scripts, or screen time analysis. What's on your mind?",
+      "timestamp": "2026-11-18T21:17:00.409Z"
+    },
+    {
+      "id": "msg_1795036632051_xvzyu",
+      "childId": "child_01",
+      "channel": "parent_assistant",
+      "role": "user",
+      "content": "hi",
+      "timestamp": "2026-11-18T21:17:12.051Z"
+    },
+    {
+      "id": "msg_1795036632052_k1oob",
+      "childId": "child_01",
+      "channel": "parent_assistant",
+      "role": "assistant",
+      "content": "### 💡 Evidence-Based Guidance for Aarav Sharma\n\nThank you for checking in on Aarav Sharma's digital wellbeing. Currently, their overall wellbeing score is **74/100** (+4 trend).\n\n**Current Priority**: The AI Risk Engine has flagged **Late-night phone use detected**. Clinical research recommends addressing this through proactive family routines rather than abrupt punishment.\n\nWhat specific area would you like help with? I can provide **word-for-word conversation scripts**, **bedtime routine strategies**, or **balanced screen agreements**.",
+      "timestamp": "2026-11-18T21:17:12.052Z"
+    },
+    {
+      "id": "msg_1795076924007_s4zrm",
+      "childId": "child_01",
+      "channel": "child_coach",
+      "role": "user",
+      "content": "nb",
+      "timestamp": "2026-11-19T08:28:44.007Z"
+    },
+    {
+      "id": "msg_1795076924007_42vho",
+      "childId": "child_01",
+      "channel": "child_coach",
+      "role": "assistant",
+      "content": "That's really interesting, Aarav Sharma! 🌟 I'm always cheering for you. How are you feeling right now after sharing that?",
+      "timestamp": "2026-11-19T08:28:44.007Z"
+    }
+  ],
+  "avatarState": {
+    "childId": "child_01",
+    "moodExpression": "happy",
+    "activeNudge": "Keep up the great momentum! 🌟",
+    "streakDays": 6,
+    "achievementsCount": 12,
+    "rewardPoints": 495,
+    "lastInteraction": "2026-11-19T08:28:44.008Z"
+  },
+  "doctors": [
+    {
+      "id": "doc1",
+      "name": "Dr. Sarah Jenkins",
+      "specialty": "Child Psychologist · Digital Anxiety & Peer Isolation Specialist",
+      "category": "anxiety",
+      "matchScore": 98,
+      "matchReason": "Matches your child's recent TikTok screen fatigue and flagged communication logs indicating social anxiety or digital FOMO.",
+      "stars": 4.9,
+      "reviews": 142,
+      "hospital": "Pediatric Psychology Center, Suite 410",
+      "fees": "$150/session",
+      "gradient": "from-blue-500 to-indigo-600",
+      "availableSlots": [
+        "Tomorrow at 10:00 AM",
+        "Tomorrow at 2:30 PM",
+        "Friday at 4:00 PM"
+      ]
+    },
+    {
+      "id": "doc2",
+      "name": "Dr. David Chen",
+      "specialty": "Pediatric Neuropsychiatrist · ADHD & Gaming Addiction Expert",
+      "category": "adhd",
+      "matchScore": 92,
+      "matchReason": "Matches your child's 38% rise in weekend high-alert screen sessions and late-night gaming trends.",
+      "stars": 4.8,
+      "reviews": 108,
+      "hospital": "Neuro-Developmental Health Group",
+      "fees": "$180/session",
+      "gradient": "from-purple-500 to-pink-600",
+      "availableSlots": [
+        "Thursday at 11:15 AM",
+        "Friday at 1:00 PM",
+        "Saturday at 10:00 AM"
+      ]
+    },
+    {
+      "id": "doc3",
+      "name": "Dr. Elena Rostova",
+      "specialty": "Family Sleep Coach & Behavioral Pediatrician",
+      "category": "sleep",
+      "matchScore": 85,
+      "matchReason": "Matches Aarav's late-night phone logs (screen activity past midnight on 5 of the last 7 nights).",
+      "stars": 4.7,
+      "reviews": 95,
+      "hospital": "Metropolitan Family Wellness & Sleep Clinic",
+      "fees": "$130/session",
+      "gradient": "from-teal-500 to-cyan-600",
+      "availableSlots": [
+        "Today at 5:00 PM",
+        "Tomorrow at 9:00 AM",
+        "Monday at 3:00 PM"
+      ]
+    },
+    {
+      "id": "doc4",
+      "name": "Dr. Jonathan Reyes",
+      "specialty": "Cyber-Behavioral Specialist & Teen Media Therapist",
+      "category": "cyberbullying",
+      "matchScore": 81,
+      "matchReason": "Specialized in preventing social isolation, cyberbullying impact, and screen-induced stress.",
+      "stars": 4.9,
+      "reviews": 87,
+      "hospital": "Youth Media & Wellness Clinic",
+      "fees": "$160/session",
+      "gradient": "from-amber-500 to-orange-600",
+      "availableSlots": [
+        "Wednesday at 1:30 PM",
+        "Friday at 5:30 PM"
+      ]
+    }
+  ],
+  "consultations": [
+    {
+      "id": "c_8901",
+      "doctorId": "doc1",
+      "doctorName": "Dr. Sarah Jenkins",
+      "childId": "child_01",
+      "childName": "Aarav Sharma",
+      "date": "2026-08-08",
+      "type": "video",
+      "status": "confirmed",
+      "createdAt": "2026-08-04T12:00:00Z"
+    }
+  ],
+  "clinicianNotes": {
+    "child_01": {
+      "id": "cn_01",
+      "childId": "child_01",
+      "childName": "Aarav Sharma",
+      "doctorName": "Dr. Sarah Jenkins",
+      "note": "Aarav is showing moderate signs of evening digital stress. Suggested curfew at 9:30 PM. Will evaluate response to offline transitions next week.",
+      "updatedAt": "2026-08-04T15:30:00Z"
+    },
+    "p2": {
+      "id": "cn_02",
+      "childId": "p2",
+      "childName": "Leo Sinclair",
+      "doctorName": "Dr. David Chen",
+      "note": "Leo shows excellent digital balance. Gaming levels are stable and homework completion times are optimal. Maintain standard bounds.",
+      "updatedAt": "2026-08-02T10:15:00Z"
+    },
+    "p3": {
+      "id": "cn_03",
+      "childId": "p3",
+      "childName": "Maya Patel",
+      "doctorName": "Dr. Jonathan Reyes",
+      "note": "Maya has critical risk flags regarding social isolation. Screen usage exceeds 6 hours daily, mostly passive browsing. Recommending immediate offline structured intervention.",
+      "updatedAt": "2026-08-05T09:00:00Z"
+    }
+  },
+  "systemUsers": [
+    {
+      "id": "usr_101",
+      "name": "Rajesh Sharma",
+      "email": "rajesh.sharma@example.com",
+      "role": "PARENT",
+      "subscription": "Family",
+      "status": "Active",
+      "childrenCount": 2,
+      "lastActive": "10 mins ago",
+      "createdAt": "2025-11-12"
+    },
+    {
+      "id": "usr_102",
+      "name": "Aarav Sharma",
+      "email": "aarav.s@example.com",
+      "role": "CHILD",
+      "subscription": "Family",
+      "status": "Active",
+      "wellbeingScore": 74,
+      "lastActive": "Just now",
+      "createdAt": "2025-11-12"
+    },
+    {
+      "id": "usr_103",
+      "name": "Dr. Sarah Jenkins",
+      "email": "sarah.j@pediatrichealth.org",
+      "role": "DOCTOR",
+      "subscription": "Family",
+      "status": "Active",
+      "lastActive": "1 hour ago",
+      "createdAt": "2026-01-05"
+    },
+    {
+      "id": "usr_104",
+      "name": "Priya Sinclair",
+      "email": "priya.sinclair@example.com",
+      "role": "PARENT",
+      "subscription": "Premium",
+      "status": "Active",
+      "childrenCount": 1,
+      "lastActive": "3 hours ago",
+      "createdAt": "2026-02-14"
+    },
+    {
+      "id": "usr_105",
+      "name": "Marcus Vance",
+      "email": "marcus.v@admin.kiddo.ai",
+      "role": "ADMIN",
+      "subscription": "Family",
+      "status": "Active",
+      "lastActive": "Now",
+      "createdAt": "2025-09-01"
+    },
+    {
+      "id": "usr_106",
+      "name": "Vikram Patel",
+      "email": "vikram.p@example.com",
+      "role": "PARENT",
+      "subscription": "Free",
+      "status": "Flagged",
+      "childrenCount": 1,
+      "lastActive": "2 days ago",
+      "createdAt": "2026-04-10"
+    },
+    {
+      "id": "usr_107",
+      "name": "Maya Patel",
+      "email": "maya.p@example.com",
+      "role": "CHILD",
+      "subscription": "Free",
+      "status": "Active",
+      "wellbeingScore": 61,
+      "lastActive": "5 hours ago",
+      "createdAt": "2026-04-10"
+    }
+  ],
+  "referral": {
+    "code": "AARAV-4F2K",
+    "invited": 6,
+    "premiumUnlocked": true,
+    "leaderboardRank": 12
+  },
+  "adminStats": {
+    "totalUsers": 12480,
+    "children": 7210,
+    "parents": 5270,
+    "activeSubscriptions": 3120,
+    "monthlyRevenue": 48210,
+    "riskAlertsToday": 214,
+    "modelAccuracy": 91.5
+  },
+  "heuristicRules": {
+    "lateNightStartHour": 22,
+    "lateNightEndHour": 5,
+    "weekdayMaxScreenHours": 4.5,
+    "weekendMaxScreenHours": 6.5,
+    "continuousGamingAlertMinutes": 150,
+    "confidenceThreshold": 75,
+    "enableParallelInterventions": true
+  },
+  "modelTrainingMetrics": {
+    "modelAccuracy": 91.5,
+    "totalEvaluations": 435,
+    "truePositives": 398,
+    "falsePositives": 37,
+    "interventionsSucceeded": 323,
+    "lastRetrainedAt": "2026-11-15T19:54:48.139Z"
+  },
+  "currentLocation": {
+    "childId": "child_01",
+    "childName": "Aarav Sharma",
+    "lat": 37.789500000000004,
+    "lng": -122.40350000000001,
+    "placeName": "Oakwood High School",
+    "currentZone": "In Transit",
+    "status": "in_transit",
+    "lastUpdated": "2026-11-19T08:22:43.486Z",
+    "batteryLevel": 84,
+    "speedKmh": 18,
+    "accuracyMeters": 5,
+    "isGpsActive": true
+  },
+  "locationWaypoints": [
+    {
+      "id": "wp_1",
+      "time": "8:02 AM",
+      "timestamp": "2026-11-18T22:40:13.672Z",
+      "latitude": 28.6139,
+      "longitude": 77.209,
+      "place": "Home",
+      "event": "Left Home",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_2",
+      "time": "8:15 AM",
+      "timestamp": "2026-11-18T22:52:13.672Z",
+      "latitude": 28.621,
+      "longitude": 77.215,
+      "place": "Subhash Marg Corridor",
+      "event": "In Transit via School Bus",
+      "speedKmh": 28
+    },
+    {
+      "id": "wp_3",
+      "time": "8:24 AM",
+      "timestamp": "2026-11-18T23:04:13.672Z",
+      "latitude": 28.628,
+      "longitude": 77.22,
+      "place": "St. Xavier's School",
+      "event": "Reached School Safe Zone",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_4",
+      "time": "3:15 PM",
+      "timestamp": "2026-11-19T05:40:13.672Z",
+      "latitude": 28.628,
+      "longitude": 77.22,
+      "place": "St. Xavier's School",
+      "event": "Left School",
+      "speedKmh": 12
+    },
+    {
+      "id": "wp_5",
+      "time": "3:52 PM",
+      "timestamp": "2026-11-19T06:10:13.672Z",
+      "latitude": 28.621,
+      "longitude": 77.214,
+      "place": "Apex Learning Hub",
+      "event": "Entered Safe Zone: Tuition Center",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_6",
+      "time": "5:42 PM",
+      "timestamp": "2026-11-19T07:28:13.672Z",
+      "latitude": 28.6141,
+      "longitude": 77.2092,
+      "place": "Home",
+      "event": "Reached Home Safe Zone",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074259981",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:19.969Z",
+      "latitude": 28.621,
+      "longitude": 77.214,
+      "place": "Tuition Center",
+      "event": "Entered Safe Zone: Tuition Center",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074261080",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:21.080Z",
+      "latitude": 28.62095,
+      "longitude": 77.2145,
+      "place": "En Route · Central Transit Corridor",
+      "event": "Moving towards Home",
+      "speedKmh": 28
+    },
+    {
+      "id": "wp_1795074262982",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:22.982Z",
+      "latitude": 28.6281,
+      "longitude": 77.2202,
+      "place": "School",
+      "event": "Left Safe Zone: Tuition Center",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074265448",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:25.448Z",
+      "latitude": 28.62095,
+      "longitude": 77.2145,
+      "place": "En Route · Central Transit Corridor",
+      "event": "Entered Safe Zone: Tuition Center",
+      "speedKmh": 28
+    },
+    {
+      "id": "wp_1795074267351",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:27.351Z",
+      "latitude": 28.635,
+      "longitude": 77.225,
+      "place": "Connaught Promenade Park",
+      "event": "Left Safe Zone: Tuition Center",
+      "speedKmh": 4
+    },
+    {
+      "id": "wp_1795074269564",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:29.563Z",
+      "latitude": 28.6141,
+      "longitude": 77.2089,
+      "place": "Home",
+      "event": "Entered Safe Zone: Home",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074274500",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:34.500Z",
+      "latitude": 28.6281,
+      "longitude": 77.2202,
+      "place": "School",
+      "event": "Entered Safe Zone: School",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074278029",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:38.029Z",
+      "latitude": 28.621,
+      "longitude": 77.214,
+      "place": "Tuition Center",
+      "event": "Entered Safe Zone: Tuition Center",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074280980",
+      "time": "01:14 PM",
+      "timestamp": "2026-11-19T07:44:40.979Z",
+      "latitude": 28.62095,
+      "longitude": 77.2145,
+      "place": "En Route · Central Transit Corridor",
+      "event": "Moving towards Home",
+      "speedKmh": 28
+    },
+    {
+      "id": "wp_1795074325489",
+      "time": "01:15 PM",
+      "timestamp": "2026-11-19T07:45:25.489Z",
+      "latitude": 28.6281,
+      "longitude": 77.2202,
+      "place": "School",
+      "event": "Left Safe Zone: Tuition Center",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074327046",
+      "time": "01:15 PM",
+      "timestamp": "2026-11-19T07:45:27.046Z",
+      "latitude": 28.6281,
+      "longitude": 77.2202,
+      "place": "School",
+      "event": "Reached School",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074328348",
+      "time": "01:15 PM",
+      "timestamp": "2026-11-19T07:45:28.348Z",
+      "latitude": 28.621,
+      "longitude": 77.214,
+      "place": "Tuition Center",
+      "event": "Entered Safe Zone: Tuition Center",
+      "speedKmh": 0
+    },
+    {
+      "id": "wp_1795074329348",
+      "time": "01:15 PM",
+      "timestamp": "2026-11-19T07:45:29.347Z",
+      "latitude": 28.62095,
+      "longitude": 77.2145,
+      "place": "En Route · Central Transit Corridor",
+      "event": "Moving towards Home",
+      "speedKmh": 28
+    },
+    {
+      "id": "wp_1795074330847",
+      "time": "01:15 PM",
+      "timestamp": "2026-11-19T07:45:30.847Z",
+      "latitude": 28.635,
+      "longitude": 77.225,
+      "place": "Connaught Promenade Park",
+      "event": "Left Safe Zone: Tuition Center",
+      "speedKmh": 4
+    }
+  ]
+}

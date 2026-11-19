@@ -247,14 +247,28 @@ npx prisma studio
 
 ---
 
-## 📡 API Routes
+## 📡 API Routes & Backend Engine
+
+KiddoAI includes a persistent server-side database and heuristic ML risk engine (`lib/server/db.ts` & `lib/server/risk-engine.ts`):
 
 | Endpoint | Method | Description |
 | :--- | :--- | :--- |
-| `/api/assistant` | `POST` | Accepts `{ message, history }`. Returns AI parent advisory response. |
-| `/api/child-coach` | `POST` | Accepts `{ message, mood }`. Returns child-safe companion advice. |
-| `/api/risk-summary` | `POST` | Generates weekly behavioral risk summaries based on child metrics. |
-| `/api/videos` | `GET` | Returns list of curated parenting masterclasses and educational videos. |
+| `/api/telemetry/events` | `GET`, `POST` | Ingests on-device telemetry events (app usage, session length, time of day, sentiment). Evaluates using Risk Engine and triggers dual interventions. |
+| `/api/dashboard/overview` | `GET` | Returns real-time child wellbeing score, screen time, top apps, mood trends, active risk signals, and AI summary. |
+| `/api/dashboard/alerts` | `GET`, `POST` | Fetches active/resolved alerts. Accepts parent offline actions (`"Had bedtime conversation"`, `"Set curfew"`) to close the feedback loop and recalibrate model accuracy. |
+| `/api/dashboard/mood` | `GET`, `POST` | Manages 7-day emotional journal, logs new child or parent check-ins, updates wellbeing score and avatar emotion. |
+| `/api/dashboard/location` | `GET`, `POST` | Live geofencing safe zones (Home, School, Tuition) and travel timeline. |
+| `/api/dashboard/referrals` | `GET`, `POST` | Manages referral code, invited parent count, and milestone reward unlocks. |
+| `/api/child-coach` | `GET`, `POST` | Safe, empathetic conversational AI companion for children. Uses GPT-4o-mini or intelligent local contextual guidance with safety guardrails. |
+| `/api/assistant` | `GET`, `POST` | Parent digital wellbeing advisor. Provides calm, non-alarmist, practical offline parenting strategies based on live telemetry. |
+| `/api/risk-summary` | `GET` | Generates weekly behavioral risk summaries with wins and watch-outs. |
+| `/api/videos` | `GET` | Curated expert parenting masterclasses dynamically tagged with recommendations based on current active child risk alerts. |
+| `/api/doctors` | `GET` | Searchable directory of verified pediatricians and child psychologists with matching scores. |
+| `/api/doctors/consult` | `GET`, `POST` | Books telehealth/in-person pediatric appointments and updates schedule. |
+| `/api/doctors/notes` | `GET`, `POST` | Author and persist clinical wellbeing notes for consented child patients. |
+| `/api/admin/stats` | `GET` | Administrative KPIs, telemetry throughput, system health, and model training metrics. |
+| `/api/admin/users` | `GET`, `PATCH` | Manage user accounts, subscription tiers, and account status (Active, Suspended, Flagged). |
+| `/api/admin/system` | `POST` | Runs automated system diagnostic sweeps and tunes heuristic rule thresholds. |
 
 ---
 

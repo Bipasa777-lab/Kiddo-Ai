@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
-import { mockSystemUsers, SystemUser } from "@/lib/mock-data";
+import { getDb, saveDb } from "@/lib/server/db";
+import { SystemUser } from "@/lib/mock-data";
 
 export async function GET(req: NextRequest) {
   try {
@@ -8,7 +9,8 @@ export async function GET(req: NextRequest) {
     const roleFilter = searchParams.get("role") || "ALL";
     const statusFilter = searchParams.get("status") || "ALL";
 
-    let filtered = [...mockSystemUsers];
+    const db = getDb();
+    let filtered = [...db.systemUsers];
 
     if (query) {
       filtered = filtered.filter(
@@ -51,18 +53,21 @@ export async function PATCH(req: NextRequest) {
       return NextResponse.json({ error: "userId is required" }, { status: 400 });
     }
 
-    const userIndex = mockSystemUsers.findIndex((u) => u.id === userId);
+    const db = getDb();
+    const userIndex = db.systemUsers.findIndex((u) => u.id === userId);
     if (userIndex === -1) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    if (status) mockSystemUsers[userIndex].status = status;
-    if (role) mockSystemUsers[userIndex].role = role;
-    if (subscription) mockSystemUsers[userIndex].subscription = subscription;
+    if (status) db.systemUsers[userIndex].status = status;
+    if (role) db.systemUsers[userIndex].role = role;
+    if (subscription) db.systemUsers[userIndex].subscription = subscription;
+
+    saveDb(db);
 
     return NextResponse.json({
       message: "User updated successfully",
-      user: mockSystemUsers[userIndex],
+      user: db.systemUsers[userIndex],
     });
   } catch (error) {
     console.error("Error updating user:", error);

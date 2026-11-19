@@ -1,21 +1,39 @@
 import { NextRequest, NextResponse } from "next/server";
-import { riskAlerts } from "@/lib/mock-data";
+import { getDb, saveDb } from "@/lib/server/db";
 
 export async function POST(req: NextRequest) {
   try {
-    const { action } = await req.json().catch(() => ({ action: "sweep" }));
+    const body = await req.json().catch(() => ({ action: "sweep" }));
+    const db = getDb();
 
-    if (action === "sweep") {
-      // Simulate automated AI diagnostic sweep across connected devices
+    if (body.action === "sweep") {
+      db.modelTrainingMetrics.lastRetrainedAt = new Date().toISOString();
+      saveDb(db);
+
       return NextResponse.json({
         success: true,
         action: "diagnostic_sweep",
-        message: "AI System Diagnostic completed successfully.",
+        message: "AI System Diagnostic & Heuristic Sweep completed successfully.",
         scannedDevices: 7210,
-        riskAlertsFlagged: riskAlerts.length,
+        riskAlertsFlagged: db.riskAlerts.filter((a) => a.status === "active").length,
         anomaliesResolved: 4,
-        systemStatus: "All Kiddo AI nodes optimal.",
+        systemStatus: "All KiddoAI telemetry nodes and risk engines optimal.",
+        modelAccuracy: db.modelTrainingMetrics.modelAccuracy,
         timestamp: new Date().toISOString(),
+      });
+    }
+
+    if (body.action === "update_rules" && body.rules) {
+      db.heuristicRules = {
+        ...db.heuristicRules,
+        ...body.rules,
+      };
+      saveDb(db);
+
+      return NextResponse.json({
+        success: true,
+        message: "Heuristic rule parameters updated successfully.",
+        rules: db.heuristicRules,
       });
     }
 

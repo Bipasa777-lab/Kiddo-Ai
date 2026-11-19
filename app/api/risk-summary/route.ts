@@ -1,11 +1,21 @@
 import { NextResponse } from "next/server";
 import { getOpenAI } from "@/lib/openai";
-import { child, weeklyScreenTime, appUsage, moodJournal, riskAlerts, weeklyReport } from "@/lib/mock-data";
+import { getDb } from "@/lib/server/db";
+import { generateAIParentingSummary } from "@/lib/server/risk-engine";
 
 export async function GET() {
+  const db = getDb();
+  const child = db.child;
+  const localSummary = generateAIParentingSummary();
+
   const openai = getOpenAI();
   if (!openai) {
-    return NextResponse.json({ summary: weeklyReport.summary, source: "mock" });
+    return NextResponse.json({
+      summary: localSummary.summary,
+      wins: localSummary.wins,
+      watchouts: localSummary.watchouts,
+      source: "local-risk-engine",
+    });
   }
 
   try {
@@ -20,20 +30,27 @@ export async function GET() {
         {
           role: "user",
           content: `Child: ${child.name}, wellbeing score ${child.wellbeingScore}/100.
-Screen time by day: ${JSON.stringify(weeklyScreenTime)}.
-Top apps: ${JSON.stringify(appUsage.slice(0, 4))}.
-Mood journal: ${JSON.stringify(moodJournal)}.
-Risk alerts: ${JSON.stringify(riskAlerts)}.`,
+Screen time by day: ${JSON.stringify(db.weeklyScreenTime)}.
+Top apps: ${JSON.stringify(db.appUsage.slice(0, 4))}.
+Active alerts: ${JSON.stringify(db.riskAlerts.filter((a) => a.status === "active"))}.`,
         },
       ],
       max_tokens: 150,
     });
+
     return NextResponse.json({
-      summary: completion.choices[0]?.message?.content ?? weeklyReport.summary,
-      source: "openai",
+      summary: completion.choices[0]?.message?.content ?? localSummary.summary,
+      wins: localSummary.wins,
+      watchouts: localSummary.watchouts,
+      source: "openai-risk-engine",
     });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ summary: weeklyReport.summary, source: "mock-fallback" });
+    console.error("OpenAI summary failed, returning local summary:", err);
+    return NextResponse.json({
+      summary: localSummary.summary,
+      wins: localSummary.wins,
+      watchouts: localSummary.watchouts,
+      source: "local-risk-engine-fallback",
+    });
   }
 }

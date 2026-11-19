@@ -24,6 +24,27 @@ export function ChatPanel({
   const [loading, setLoading] = useState(false);
   const endRef = useRef<HTMLDivElement>(null);
 
+  // Fetch initial history on mount
+  useEffect(() => {
+    async function loadHistory() {
+      try {
+        const res = await fetch(endpoint);
+        const data = await res.json();
+        if (data.history && Array.isArray(data.history) && data.history.length > 0) {
+          setMessages(
+            data.history.map((m: any) => ({
+              role: m.role,
+              content: m.content,
+            }))
+          );
+        }
+      } catch (err) {
+        // Fallback to empty
+      }
+    }
+    loadHistory();
+  }, [endpoint]);
+
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
