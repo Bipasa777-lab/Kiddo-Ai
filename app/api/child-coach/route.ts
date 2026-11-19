@@ -78,10 +78,25 @@ function generateLocalCoachReply(lastUserMessage: string, childName: string): st
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json();
+    const body = await req.json();
     const db = getDb();
     const child = db.child;
 
+    // Handle "new_chat" action
+    if (body.action === "new_chat") {
+      const { clearChatHistory, getChatHistory } = await import("@/lib/server/db");
+      clearChatHistory("child_coach", child.id);
+      const greeting = `Hi ${child.name}! 🌟 Brand new chat started! I'm right here whenever you want to talk about school, games, friends, or how your day went. What's on your mind?`;
+      logChatMessage("child_coach", "assistant", greeting, child.id);
+      updateAvatarNudge("Ready for a fresh conversation! 🌟", "happy");
+      return NextResponse.json({
+        reply: greeting,
+        history: getChatHistory("child_coach", child.id),
+        avatarState: db.avatarState,
+      });
+    }
+
+    const { messages } = body;
     const lastMessage = messages?.[messages.length - 1]?.content || "";
     if (lastMessage) {
       logChatMessage("child_coach", "user", lastMessage, child.id);
@@ -141,9 +156,43 @@ Rules you must strictly follow:
 
 export async function GET() {
   const db = getDb();
-  const history = db.chatHistory.filter((m) => m.channel === "child_coach");
+  let history = db.chatHistory.filter((m) => m.channel === "child_coach");
+
+  // Ensure there is always a friendly greeting so chat is never blank
+  if (history.length === 0) {
+    const greeting = `Hi ${db.child.name}! 🌟 I'm Kiddo, your personal AI companion. Ready for today's adventures? How's your day going so far?`;
+    logChatMessage("child_coach", "assistant", greeting, db.child.id);
+    history = db.chatHistory.filter((m) => m.channel === "child_coach");
+  }
+
   return NextResponse.json({
     history,
     avatarState: db.avatarState,
   });
+}
+
+export async function DELETE() {
+  try {
+    const db = getDb();
+    const child = db.child;
+    const { clearChatHistory, getChatHistory } = await import("@/lib/server/db");
+    clearChatHistory("child_coach", child.id);
+
+    const greeting = `Hi ${child.name}! 🌟 All clean and fresh! What would you like to talk about today?`;
+    logChatMessage("child_coach", "assistant", greeting, child.id);
+    updateAvatarNudge("Chat history cleared. Fresh start! 🌟", "happy");
+
+    return NextResponse.json({
+      success: true,
+      message: "Chat history deleted successfully.",
+      history: getChatHistory("child_coach", child.id),
+      avatarState: db.avatarState,
+    });
+  } catch (error) {
+    console.error("Child coach DELETE error:", error);
+    return NextResponse.json(
+      { error: "Failed to delete chat history" },
+      { status: 500 }
+    );
+  }
 }

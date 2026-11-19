@@ -28,11 +28,15 @@ export function AvatarCompanion({
   nudge,
   streakDays = 6,
   points = 480,
+  onTap,
 }: AvatarCompanionProps) {
   const [activeSpeech, setActiveSpeech] = useState<string | null>(nudge || null);
   const [funMessage, setFunMessage] = useState<string | null>(null);
 
   const handleAvatarClick = () => {
+    if (onTap) {
+      onTap();
+    }
     const randomJoke = jokes[Math.floor(Math.random() * jokes.length)];
     setFunMessage(randomJoke);
     setTimeout(() => {

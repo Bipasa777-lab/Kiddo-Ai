@@ -24,15 +24,26 @@ export const weeklyScreenTime = [
   { day: "Sun", hours: 6.0, education: 0.6, social: 2.0, gaming: 2.2, entertainment: 1.2 },
 ];
 
-export const appUsage = [
-  { app: "YouTube", time: "2h 15m", minutes: 135, percentage: 32, color: "#EF4444" },
-  { app: "WhatsApp", time: "1h 10m", minutes: 70, percentage: 16, color: "#22C55E" },
-  { app: "Instagram", time: "1h 00m", minutes: 60, percentage: 14, color: "#EC4899" },
-  { app: "Chrome", time: "0h 50m", minutes: 50, percentage: 12, color: "#F59E0B" },
-  { app: "Minecraft", time: "0h 40m", minutes: 40, percentage: 9, color: "#22C55E" },
-  { app: "Google Classroom", time: "0h 35m", minutes: 35, percentage: 8, color: "#2563EB" },
-  { app: "Spotify", time: "0h 25m", minutes: 25, percentage: 5, color: "#06B6D4" },
-  { app: "Others", time: "0h 20m", minutes: 20, percentage: 4, color: "#94A3B8" },
+export interface MockAppUsageItem {
+  app: string;
+  time: string;
+  minutes: number;
+  percentage: number;
+  color: string;
+  category?: string;
+  dailyLimitMinutes?: number;
+  isBlocked?: boolean;
+}
+
+export const appUsage: MockAppUsageItem[] = [
+  { app: "YouTube", time: "2h 15m", minutes: 135, percentage: 32, color: "#EF4444", category: "entertainment" },
+  { app: "WhatsApp", time: "1h 10m", minutes: 70, percentage: 16, color: "#22C55E", category: "social" },
+  { app: "Instagram", time: "1h 00m", minutes: 60, percentage: 14, color: "#EC4899", category: "social" },
+  { app: "Chrome", time: "0h 50m", minutes: 50, percentage: 12, color: "#F59E0B", category: "utility" },
+  { app: "Minecraft", time: "0h 40m", minutes: 40, percentage: 9, color: "#22C55E", category: "gaming" },
+  { app: "Google Classroom", time: "0h 35m", minutes: 35, percentage: 8, color: "#2563EB", category: "education" },
+  { app: "Spotify", time: "0h 25m", minutes: 25, percentage: 5, color: "#06B6D4", category: "entertainment" },
+  { app: "Others", time: "0h 20m", minutes: 20, percentage: 4, color: "#94A3B8", category: "utility" },
 ];
 
 export const moodJournal = [

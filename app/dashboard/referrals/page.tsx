@@ -1,30 +1,83 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Topbar } from "@/components/dashboard/topbar";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  Gift, Copy, Check, Users, Award, 
-  Send, Mail, MessageSquare 
+import {
+  Gift,
+  Copy,
+  Check,
+  Users,
+  Award,
+  Send,
+  Mail,
+  RefreshCw,
+  CheckCircle2,
+  Trash2,
+  Sparkles,
+  Loader2,
 } from "lucide-react";
 
-const milestones = [
-  { count: 1, label: "1 Month Free Premium", reached: true },
-  { count: 3, label: "3 Months Free Premium", reached: true },
-  { count: 5, label: "1 Year Family Upgrade", reached: false, current: true },
-  { count: 10, label: "Lifetime VIP Access", reached: false }
-];
+interface ReferralLogItem {
+  id: string;
+  email: string;
+  date: string;
+  status: "Subscribed" | "Trial Active" | "Invited";
+  reward: string;
+}
 
-const referralLog = [
-  { id: "ref1", email: "priya.nair@email.com", date: "July 12, 2026", status: "Subscribed", reward: "3 Months Premium Unlocked" },
-  { id: "ref2", email: "vikram.malhotra@email.com", date: "July 18, 2026", status: "Subscribed", reward: "Milestone Tier Unlocked" },
-  { id: "ref3", email: "amit.k@email.com", date: "July 24, 2026", status: "Signed Up", reward: "Pending Subscription" },
-  { id: "ref4", email: "sara.sharma@email.com", date: "July 25, 2026", status: "Invited", reward: "Waiting for Signup" }
-];
+interface MilestoneItem {
+  count: number;
+  label: string;
+  reached: boolean;
+  current: boolean;
+}
 
 export default function ReferralHubPage() {
   const [copied, setCopied] = useState(false);
-  const referralLink = "https://kiddoai.com/invite?code=AARAV-4F2K";
+  const [referralCode, setReferralCode] = useState("AARAV-4F2K");
+  const [totalInvited, setTotalInvited] = useState(6);
+  const [premiumUnlocked, setPremiumUnlocked] = useState(true);
+  const [milestones, setMilestones] = useState<MilestoneItem[]>([
+    { count: 1, label: "1 Month Free Premium", reached: true, current: false },
+    { count: 3, label: "3 Months Free Premium", reached: true, current: false },
+    { count: 5, label: "1 Year Family Upgrade", reached: true, current: false },
+    { count: 10, label: "Lifetime VIP Access", reached: false, current: true },
+  ]);
+  const [logs, setLogs] = useState<ReferralLogItem[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [inviteEmail, setInviteEmail] = useState("");
+  const [sendingInvite, setSendingInvite] = useState(false);
+  const [feedback, setFeedback] = useState<string | null>(null);
+
+  const referralLink = `https://kiddoai.com/invite?code=${referralCode}`;
+
+  const fetchReferralData = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await fetch("/api/dashboard/referrals", { cache: "no-store" });
+      const json = await res.json();
+      if (json.success && json.referral) {
+        setReferralCode(json.referral.code || "AARAV-4F2K");
+        setTotalInvited(json.referral.invited || 0);
+        setPremiumUnlocked(Boolean(json.referral.premiumUnlocked));
+        if (json.referral.logs) {
+          setLogs(json.referral.logs);
+        }
+        if (json.milestones) {
+          setMilestones(json.milestones);
+        }
+      }
+    } catch (err) {
+      console.error("Failed to load referral data:", err);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchReferralData();
+  }, [fetchReferralData]);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(referralLink);
@@ -32,153 +85,243 @@ export default function ReferralHubPage() {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  return (
-    <div className="min-h-screen bg-slate-50/30 dark:bg-[#081225]/30">
-      <Topbar 
-        title="Referral Rewards Hub" 
-        subtitle="Invite fellow parents to KiddoAI. Secure premium dashboard upgrades and consultation credits." 
-      />
+  const handleSendInvite = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inviteEmail.trim() || !inviteEmail.includes("@")) return;
 
-      {/* Grid containing Quick Copy card and statistics summaries */}
-      <div className="grid gap-6 lg:grid-cols-12 mb-8">
+    try {
+      setSendingInvite(true);
+      const res = await fetch("/api/dashboard/referrals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: inviteEmail.trim() }),
+      });
+      const json = await res.json();
+      if (json.success) {
+        setFeedback(json.message || "Invitation successfully sent!");
+        setInviteEmail("");
+        await fetchReferralData();
+        setTimeout(() => setFeedback(null), 3500);
+      } else {
+        setFeedback(json.error || "Failed to dispatch invitation.");
+      }
+    } catch (err) {
+      console.error("Error sending referral invite:", err);
+    } finally {
+      setSendingInvite(false);
+    }
+  };
+
+  const handleDeleteInvite = async (id: string) => {
+    try {
+      const res = await fetch(`/api/dashboard/referrals?id=${encodeURIComponent(id)}`, {
+        method: "DELETE",
+      });
+      const json = await res.json();
+      if (json.success) {
+        setFeedback("Referral record removed.");
+        await fetchReferralData();
+        setTimeout(() => setFeedback(null), 2500);
+      }
+    } catch (err) {
+      console.error("Error deleting referral:", err);
+    }
+  };
+
+  const handleClaimMilestone = async (count: number) => {
+    try {
+      const res = await fetch("/api/dashboard/referrals", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "claim", count }),
+      });
+      const json = await res.json();
+      setFeedback(json.message);
+      await fetchReferralData();
+      setTimeout(() => setFeedback(null), 3000);
+    } catch (err) {
+      console.error("Error claiming milestone:", err);
+    }
+  };
+
+  const subscribedCount = logs.filter((l) => l.status === "Subscribed").length;
+  const progressPct = Math.min(100, Math.round((totalInvited / 10) * 100));
+
+  return (
+    <div className="space-y-6 pb-12">
+      {/* Topbar */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border/60 pb-5">
+        <div>
+          <h1 className="font-heading text-2xl font-bold tracking-tight text-foreground">
+            Referral Rewards Hub &amp; Growth Perks
+          </h1>
+          <p className="mt-1 text-sm text-muted">
+            Invite fellow parents to KiddoAI. Unlock free premium months, family licenses, and clinical credits.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={fetchReferralData}
+            disabled={loading}
+            className="flex items-center gap-1.5 rounded-xl border border-border bg-card px-3.5 py-2 text-xs font-semibold text-foreground transition hover:bg-background shadow-sm disabled:opacity-50"
+          >
+            <RefreshCw size={14} className={loading ? "animate-spin text-primary" : ""} />
+            <span>Sync Hub</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Feedback Alert */}
+      {feedback && (
+        <div className="flex items-center gap-2 rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+          <CheckCircle2 size={15} />
+          <span>{feedback}</span>
+        </div>
+      )}
+
+      {/* Referral Link & Stats Grid */}
+      <div className="grid gap-6 lg:grid-cols-12">
         {/* Left Side: Share Link Card */}
-        <Card className="lg:col-span-7 border-slate-100 dark:border-slate-800/40 bg-white dark:bg-[#0f1f38] p-6 rounded-2xl flex flex-col justify-between">
+        <Card className="lg:col-span-7 p-6 flex flex-col justify-between">
           <div>
-            <div className="flex items-center gap-2 text-blue-600 dark:text-blue-400">
-              <Gift className="h-5 w-5 fill-current/10 animate-bounce" />
+            <div className="flex items-center gap-2 text-primary mb-2">
+              <Gift size={20} className="animate-bounce" />
               <h4 className="font-heading text-sm font-bold uppercase tracking-wider">
-                Share the Gift of Parenting Insight
+                Give 30 Days Free · Unlock Family Milestone
               </h4>
             </div>
-            <p className="text-slate-500 dark:text-slate-400 text-sm mt-3 leading-relaxed">
-              When friends sign up using your link, they get <span className="font-bold text-slate-800 dark:text-white">30 days of Premium free</span>. Once their trial converts, you unlock premium milestones!
+            <p className="text-xs text-muted leading-relaxed">
+              When friends join with your code, they immediately receive a 30-day Premium trial.
+              Every active referral advances your tier towards free lifetime family access.
             </p>
           </div>
 
           {/* Copy Bar */}
-          <div className="mt-6">
-            <label className="text-xs text-slate-400 font-semibold uppercase tracking-wider block mb-2">
-              Your Unique Referral URL
+          <div className="mt-5">
+            <label className="text-[10px] text-muted font-bold uppercase tracking-wider block mb-1.5">
+              Your Unique Referral Link
             </label>
             <div className="flex gap-2">
-              <div className="flex-1 bg-slate-50 dark:bg-slate-800/60 border border-slate-100 dark:border-slate-800/60 rounded-xl px-4 py-3 text-slate-600 dark:text-slate-300 text-sm font-mono truncate select-all">
+              <div className="flex-1 rounded-xl border border-border bg-background px-3.5 py-2.5 text-xs font-mono text-foreground truncate select-all">
                 {referralLink}
               </div>
-              <button 
+              <button
                 onClick={handleCopy}
-                className="bg-[#0f274a] dark:bg-white text-white dark:text-[#0f274a] px-4 rounded-xl flex items-center justify-center gap-1.5 font-semibold text-sm active:scale-95 transition"
+                className="flex items-center gap-1.5 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white shadow-sm transition hover:bg-primary/90"
               >
-                {copied ? (
-                  <>
-                    <Check className="h-4 w-4 text-emerald-500" />
-                    <span className="text-emerald-500">Copied</span>
-                  </>
-                ) : (
-                  <>
-                    <Copy className="h-4 w-4" />
-                    <span>Copy</span>
-                  </>
-                )}
+                {copied ? <Check size={14} className="text-emerald-300" /> : <Copy size={14} />}
+                <span>{copied ? "Copied" : "Copy Link"}</span>
               </button>
             </div>
           </div>
 
-          {/* Share links */}
-          <div className="mt-6 pt-6 border-t border-slate-50 dark:border-slate-800/40 flex items-center justify-between">
-            <span className="text-xs text-slate-400 font-semibold">QUICK SHARE OPTIONS:</span>
-            <div className="flex gap-3">
-              <button className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-blue-500 hover:text-white transition text-slate-600 dark:text-slate-300">
-                <Send className="h-4.5 w-4.5" />
-              </button>
-              <button className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-emerald-500 hover:text-white transition text-slate-600 dark:text-slate-300">
-                <MessageSquare className="h-4.5 w-4.5" />
-              </button>
-              <button className="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-800 hover:bg-red-500 hover:text-white transition text-slate-600 dark:text-slate-300">
-                <Mail className="h-4.5 w-4.5" />
+          {/* Direct Email Invite Form */}
+          <form onSubmit={handleSendInvite} className="mt-5 pt-4 border-t border-border/50">
+            <label className="text-[10px] text-muted font-bold uppercase tracking-wider block mb-1.5">
+              Send Direct Invitation by Email
+            </label>
+            <div className="flex gap-2">
+              <input
+                type="email"
+                required
+                value={inviteEmail}
+                onChange={(e) => setInviteEmail(e.target.value)}
+                placeholder="parent.friend@example.com"
+                className="flex-1 rounded-xl border border-border bg-background px-3 py-2 text-xs outline-none focus:border-primary"
+              />
+              <button
+                type="submit"
+                disabled={sendingInvite || !inviteEmail.trim()}
+                className="flex items-center gap-1.5 rounded-xl bg-secondary px-4 py-2 text-xs font-bold text-white transition hover:bg-secondary/90 disabled:opacity-50"
+              >
+                {sendingInvite ? <Loader2 size={13} className="animate-spin" /> : <Send size={13} />}
+                <span>Send Invite</span>
               </button>
             </div>
-          </div>
+          </form>
         </Card>
 
         {/* Right Side: Stats Panel */}
         <div className="lg:col-span-5 grid gap-4 grid-cols-2 lg:grid-cols-1">
-          {/* Card 1 */}
-          <Card className="border-slate-100 dark:border-slate-800/40 bg-white dark:bg-[#0f1f38] p-5 rounded-2xl flex items-center justify-between shadow-sm">
+          <Card className="p-5 flex items-center justify-between shadow-xs">
             <div>
-              <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-                Total Referred
+              <span className="text-[10px] text-muted font-bold uppercase tracking-wider block">
+                Total Parents Invited
               </span>
-              <span className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1 block">
-                4 Parents
+              <span className="text-3xl font-extrabold font-heading text-foreground mt-1 block">
+                {totalInvited}
               </span>
-              <span className="text-xs text-slate-500 mt-2 block">
-                2 registered trials, 2 active
+              <span className="text-xs text-muted mt-1 block">
+                {subscribedCount} subscribed, {logs.length - subscribedCount} trial active
               </span>
             </div>
-            <div className="bg-blue-50 dark:bg-blue-900/20 p-3.5 rounded-2xl text-blue-600 dark:text-blue-400">
-              <Users className="h-6 w-6" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-blue-500/10 text-blue-500">
+              <Users size={22} />
             </div>
           </Card>
 
-          {/* Card 2 */}
-          <Card className="border-slate-100 dark:border-slate-800/40 bg-white dark:bg-[#0f1f38] p-5 rounded-2xl flex items-center justify-between shadow-sm">
+          <Card className="p-5 flex items-center justify-between shadow-xs">
             <div>
-              <span className="text-xs text-slate-400 font-semibold uppercase tracking-wider block">
-                Milestone Level
+              <span className="text-[10px] text-muted font-bold uppercase tracking-wider block">
+                Milestone Status
               </span>
-              <span className="text-3xl font-extrabold text-slate-900 dark:text-white mt-1 block">
-                Level 2
+              <span className="text-xl font-bold font-heading text-foreground mt-1 block">
+                {totalInvited >= 5 ? "1 Year Family Upgrade" : "Level 2: 3 Months Premium"}
               </span>
-              <span className="text-xs text-emerald-500 font-semibold mt-2 block">
-                3 Months Premium Unlocked
+              <span className="text-xs text-emerald-500 font-bold mt-1 block">
+                {premiumUnlocked ? "Active & Unlocked" : "In Progress"}
               </span>
             </div>
-            <div className="bg-emerald-50 dark:bg-emerald-900/20 p-3.5 rounded-2xl text-emerald-600 dark:text-emerald-400">
-              <Award className="h-6 w-6" />
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 text-emerald-500">
+              <Award size={22} />
             </div>
           </Card>
         </div>
       </div>
 
       {/* Rewards Milestones Line */}
-      <Card className="border-slate-100 dark:border-slate-800/40 bg-white dark:bg-[#0f1f38] p-6 rounded-2xl mb-8">
-        <CardHeader className="px-0 pt-0">
-          <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
-            Premium Rewards Progression
-          </CardTitle>
+      <Card className="p-6">
+        <CardHeader className="px-0 pt-0 flex flex-row items-center justify-between">
+          <CardTitle>Milestone Rewards Progression ({totalInvited}/10 Referrals)</CardTitle>
+          <span className="text-xs font-bold font-mono text-primary">
+            {progressPct}% Completed
+          </span>
         </CardHeader>
-        
-        {/* Visual Line */}
-        <div className="relative mt-8 mb-6 px-4">
-          <div className="h-2 w-full bg-slate-100 dark:bg-slate-800 rounded-full" />
-          <div className="absolute top-0 left-4 h-2 bg-emerald-500 rounded-full transition-all duration-500" style={{ width: "60%" }} />
+
+        <div className="relative mt-8 mb-8 px-4">
+          <div className="h-2 w-full bg-background rounded-full border border-border" />
+          <div
+            className="absolute top-0 left-4 h-2 bg-emerald-500 rounded-full transition-all duration-700 shadow-[0_0_10px_rgba(16,185,129,0.4)]"
+            style={{ width: `${progressPct}%` }}
+          />
 
           <div className="flex justify-between items-center absolute -top-3 w-full left-0 px-4">
             {milestones.map((m, idx) => (
               <div key={idx} className="flex flex-col items-center relative">
-                {/* Node circle */}
-                <div className={`h-8 w-8 rounded-full border-4 flex items-center justify-center text-xs font-extrabold z-10 transition ${
-                  m.reached 
-                    ? "bg-emerald-500 border-white dark:border-[#0f1f38] text-white shadow-sm"
-                    : m.current
-                      ? "bg-white dark:bg-[#0f1f38] border-emerald-500 text-emerald-600 animate-pulse"
-                      : "bg-white dark:bg-[#0f1f38] border-slate-200 dark:border-slate-800 text-slate-400"
-                }`}>
-                  {m.count}
-                </div>
-                {/* Node detail block */}
-                <div className="mt-3 text-center whitespace-nowrap">
-                  <span className={`text-[10px] font-bold block ${
-                    m.reached 
-                      ? "text-emerald-600 dark:text-emerald-400"
+                <button
+                  onClick={() => m.reached && handleClaimMilestone(m.count)}
+                  className={`h-8 w-8 rounded-full border-4 flex items-center justify-center text-xs font-extrabold z-10 transition cursor-pointer ${
+                    m.reached
+                      ? "bg-emerald-500 border-background text-white shadow-sm hover:scale-110"
                       : m.current
-                        ? "text-slate-800 dark:text-white"
-                        : "text-slate-400"
-                  }`}>
+                      ? "bg-card border-emerald-500 text-emerald-500 animate-pulse"
+                      : "bg-card border-border text-muted"
+                  }`}
+                  title={m.reached ? "Click to verify claimed perk" : `${m.count} referrals required`}
+                >
+                  {m.count}
+                </button>
+
+                <div className="mt-3 text-center whitespace-nowrap">
+                  <span
+                    className={`text-[10px] font-bold block ${
+                      m.reached ? "text-emerald-500" : m.current ? "text-foreground" : "text-muted"
+                    }`}
+                  >
                     {m.label}
                   </span>
-                  <span className="text-[9px] text-slate-400 block mt-0.5">
-                    {m.reached ? "Unlocked!" : m.current ? "2 more needed" : `${m.count} referrals`}
+                  <span className="text-[9px] text-muted block mt-0.5">
+                    {m.reached ? "Unlocked ✅" : `${m.count - totalInvited > 0 ? `${m.count - totalInvited} more needed` : "Ready!"}`}
                   </span>
                 </div>
               </div>
@@ -188,46 +331,55 @@ export default function ReferralHubPage() {
       </Card>
 
       {/* Referrals Activity log table */}
-      <Card className="border-slate-100 dark:border-slate-800/40 bg-white dark:bg-[#0f1f38] overflow-hidden rounded-2xl shadow-sm">
-        <CardHeader className="p-6 border-b border-slate-50 dark:border-slate-800/40 flex flex-row items-center justify-between">
-          <CardTitle className="text-base font-bold text-slate-900 dark:text-white">
-            Invited Contacts
-          </CardTitle>
-          <span className="text-xs text-slate-500">Updates live every 24 hours</span>
+      <Card className="overflow-hidden shadow-xs">
+        <CardHeader className="p-6 border-b border-border/50 flex flex-row items-center justify-between">
+          <div>
+            <CardTitle>Invited Contacts Directory</CardTitle>
+            <p className="text-xs text-muted mt-0.5">
+              Live referral logs synchronized with your account
+            </p>
+          </div>
+          <span className="text-xs text-muted font-medium">{logs.length} contacts listed</span>
         </CardHeader>
 
         <div className="overflow-x-auto">
-          <table className="w-full text-left text-sm border-collapse">
+          <table className="w-full text-left text-xs border-collapse">
             <thead>
-              <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800/60 text-slate-400 text-xs font-semibold uppercase tracking-wider">
+              <tr className="bg-card/50 border-b border-border text-muted font-semibold uppercase tracking-wider">
                 <th className="p-4 pl-6">Contact Email</th>
                 <th className="p-4">Invite Date</th>
-                <th className="p-4">Current Status</th>
-                <th className="p-4 pr-6 text-right">Premium Reward</th>
+                <th className="p-4">Status</th>
+                <th className="p-4">Reward Status</th>
+                <th className="p-4 pr-6 text-right">Action</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-50 dark:divide-slate-800/40">
-              {referralLog.map((log) => (
-                <tr key={log.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/10 transition">
-                  <td className="p-4 pl-6 font-semibold text-slate-800 dark:text-slate-200">
-                    {log.email}
-                  </td>
-                  <td className="p-4 text-slate-500 dark:text-slate-400">
-                    {log.date}
-                  </td>
+            <tbody className="divide-y divide-border/40">
+              {logs.map((log) => (
+                <tr key={log.id} className="hover:bg-card/40 transition">
+                  <td className="p-4 pl-6 font-bold text-foreground">{log.email}</td>
+                  <td className="p-4 text-muted">{log.date}</td>
                   <td className="p-4">
-                    <span className={`inline-flex px-2.5 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-wider ${
-                      log.status === "Subscribed"
-                        ? "bg-emerald-500/10 text-emerald-600 dark:bg-emerald-950/20"
-                        : log.status === "Signed Up"
-                          ? "bg-blue-500/10 text-blue-600 dark:bg-blue-950/20"
-                          : "bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400"
-                    }`}>
+                    <span
+                      className={`inline-flex px-2.5 py-1 rounded-full text-[10px] font-bold capitalize ${
+                        log.status === "Subscribed"
+                          ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20"
+                          : log.status === "Trial Active"
+                          ? "bg-blue-500/15 text-blue-600 dark:text-blue-400 border border-blue-500/20"
+                          : "bg-background text-muted border border-border"
+                      }`}
+                    >
                       {log.status}
                     </span>
                   </td>
-                  <td className="p-4 pr-6 text-right text-slate-700 dark:text-slate-300 font-medium">
-                    {log.reward}
+                  <td className="p-4 text-foreground font-medium">{log.reward}</td>
+                  <td className="p-4 pr-6 text-right">
+                    <button
+                      onClick={() => handleDeleteInvite(log.id)}
+                      className="rounded-lg p-1.5 text-muted hover:text-danger hover:bg-danger/10 transition"
+                      title="Remove record"
+                    >
+                      <Trash2 size={13} />
+                    </button>
                   </td>
                 </tr>
               ))}

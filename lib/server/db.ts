@@ -133,6 +133,61 @@ export interface HeuristicRuleSettings {
   enableParallelInterventions: boolean;
 }
 
+export interface ReferralLogRecord {
+  id: string;
+  email: string;
+  date: string;
+  status: "Subscribed" | "Trial Active" | "Invited";
+  reward: string;
+}
+
+export interface ReferralRecord {
+  code: string;
+  invited: number;
+  premiumUnlocked: boolean;
+  leaderboardRank: number;
+  logs?: ReferralLogRecord[];
+}
+
+export interface ScreenTimeSettingsRecord {
+  dailyLimitHours: number;
+  bedtimeCurfew: string;
+  devicePaused: boolean;
+}
+
+export interface AppUsageRecord {
+  app: string;
+  time: string;
+  minutes: number;
+  percentage: number;
+  color: string;
+  category?: string;
+  dailyLimitMinutes?: number;
+  isBlocked?: boolean;
+}
+
+export interface ChildChallengeRecord {
+  id: string;
+  title: string;
+  desc: string;
+  points: number;
+  icon: string;
+  completed: boolean;
+  completedAt?: string;
+  category: "habit" | "movement" | "learning" | "rest";
+}
+
+export interface ChildAchievementRecord {
+  id: string;
+  title: string;
+  desc: string;
+  icon: string;
+  unlocked: boolean;
+  unlockedAt?: string;
+  points: number;
+  progress?: string;
+}
+
 export interface DatabaseSchema {
   child: {
     id: string;
@@ -151,14 +206,10 @@ export interface DatabaseSchema {
     gaming: number;
     entertainment: number;
   }>;
-  appUsage: Array<{
-    app: string;
-    time: string;
-    minutes: number;
-    percentage: number;
-    color: string;
-    category?: string;
-  }>;
+  screenTimeSettings?: ScreenTimeSettingsRecord;
+  appUsage: AppUsageRecord[];
+  childChallenges?: ChildChallengeRecord[];
+  childAchievements?: ChildAchievementRecord[];
   moodJournal: Array<{
     id?: string;
     day: string;
@@ -179,7 +230,7 @@ export interface DatabaseSchema {
   consultations: typeof initialConsultations;
   clinicianNotes: typeof initialNotes;
   systemUsers: typeof initialUsers;
-  referral: typeof initialReferral;
+  referral: ReferralRecord;
   adminStats: typeof initialAdminStats;
   heuristicRules: HeuristicRuleSettings;
   modelTrainingMetrics: {
@@ -333,6 +384,131 @@ const defaultCurrentLocation: CurrentLocationRecord = {
   isGpsActive: true,
 };
 
+const defaultScreenTimeSettings: ScreenTimeSettingsRecord = {
+  dailyLimitHours: 4.5,
+  bedtimeCurfew: "21:30",
+  devicePaused: false,
+};
+
+const defaultReferralLogs: ReferralLogRecord[] = [
+  { id: "ref_1", email: "priya.nair@email.com", date: "July 12, 2026", status: "Subscribed", reward: "3 Months Premium Unlocked" },
+  { id: "ref_2", email: "vikram.malhotra@email.com", date: "July 18, 2026", status: "Subscribed", reward: "Milestone Tier Unlocked" },
+  { id: "ref_3", email: "amit.k@email.com", date: "July 24, 2026", status: "Trial Active", reward: "Pending Subscription" },
+  { id: "ref_4", email: "sara.sharma@email.com", date: "July 25, 2026", status: "Invited", reward: "Waiting for Signup" },
+  { id: "ref_5", email: "raj.mehta@email.com", date: "August 2, 2026", status: "Subscribed", reward: "Family Upgrade Milestone" },
+  { id: "ref_6", email: "ananya.d@email.com", date: "August 10, 2026", status: "Trial Active", reward: "Pending Verification" },
+];
+
+const defaultChildChallenges: ChildChallengeRecord[] = [
+  {
+    id: "ch_water",
+    title: "Hydration Hero",
+    desc: "Drink a glass of water and take a quick stretch break 💧",
+    points: 15,
+    icon: "💧",
+    completed: false,
+    category: "habit",
+  },
+  {
+    id: "ch_stretch",
+    title: "5-Minute Movement Break",
+    desc: "Stand up, stretch your shoulders, and look at something 20 feet away 🧘",
+    points: 25,
+    icon: "🧘",
+    completed: false,
+    category: "movement",
+  },
+  {
+    id: "ch_read",
+    title: "20-Minute Bookworm",
+    desc: "Read a chapter of your favorite book, comic, or article 📚",
+    points: 30,
+    icon: "📚",
+    completed: false,
+    category: "learning",
+  },
+  {
+    id: "ch_mood",
+    title: "Express Your Mood",
+    desc: "Check in with Kiddo and share how your day is feeling 😊",
+    points: 15,
+    icon: "😊",
+    completed: true,
+    completedAt: new Date().toISOString(),
+    category: "habit",
+  },
+  {
+    id: "ch_curfew",
+    title: "Bedtime Dock Champion",
+    desc: "Place your phone on the charging dock before 9:30 PM 🌙",
+    points: 50,
+    icon: "🌙",
+    completed: false,
+    category: "rest",
+  },
+];
+
+const defaultChildAchievements: ChildAchievementRecord[] = [
+  {
+    id: "ach_1",
+    title: "New Explorer",
+    desc: "Started your KiddoAI companion journey 🌟",
+    icon: "🌟",
+    unlocked: true,
+    points: 50,
+  },
+  {
+    id: "ach_2",
+    title: "Habit Builder",
+    desc: "Maintained a 3-day daily wellness check-in streak 🔥",
+    icon: "🔥",
+    unlocked: true,
+    points: 75,
+  },
+  {
+    id: "ach_3",
+    title: "Streak Master",
+    desc: "Reach a continuous 7-day wellness streak ⚡",
+    icon: "⚡",
+    unlocked: false,
+    progress: "Day 6 of 7",
+    points: 100,
+  },
+  {
+    id: "ach_4",
+    title: "Balance Champion",
+    desc: "Took 10 deliberate screen break pauses 🧘",
+    icon: "🧘",
+    unlocked: true,
+    points: 80,
+  },
+  {
+    id: "ach_5",
+    title: "Bedtime Hero",
+    desc: "Docked your phone on time on 5 school nights 🌙",
+    icon: "🌙",
+    unlocked: true,
+    points: 120,
+  },
+  {
+    id: "ach_6",
+    title: "Curious Mind",
+    desc: "Had 5 positive conversations with Kiddo Coach 💡",
+    icon: "💡",
+    unlocked: true,
+    points: 60,
+  },
+  {
+    id: "ach_7",
+    title: "500 Points Legend",
+    desc: "Earn 500 total companion reward points 🏆",
+    icon: "🏆",
+    unlocked: false,
+    progress: "480 / 500 pts",
+    points: 150,
+  },
+];
+
 function getDefaultInitialData(): DatabaseSchema {
   const alerts: RiskAlertRecord[] = initialAlerts.map((a) => ({
     id: a.id,
@@ -356,6 +532,7 @@ function getDefaultInitialData(): DatabaseSchema {
   return {
     child: { ...initialChild },
     weeklyScreenTime: [...initialScreenTime],
+    screenTimeSettings: { ...defaultScreenTimeSettings },
     appUsage: [...initialAppUsage],
     moodJournal: [...initialMoods],
     riskAlerts: alerts,
@@ -407,11 +584,13 @@ function getDefaultInitialData(): DatabaseSchema {
       rewardPoints: 480,
       lastInteraction: new Date().toISOString(),
     },
+    childChallenges: [...defaultChildChallenges],
+    childAchievements: [...defaultChildAchievements],
     doctors: [...initialDoctors],
     consultations: [...initialConsultations],
     clinicianNotes: { ...initialNotes },
     systemUsers: [...initialUsers],
-    referral: { ...initialReferral },
+    referral: { ...initialReferral, logs: [...defaultReferralLogs] },
     adminStats: { ...initialAdminStats },
     heuristicRules: {
       lateNightStartHour: 22, // 10 PM
@@ -460,6 +639,24 @@ export function getDb(): DatabaseSchema {
       if (!memoryDb!.locationTimeline || !memoryDb!.locationTimeline[0] || (memoryDb!.locationTimeline[0] as any).lat === undefined) {
         memoryDb!.locationTimeline = [...defaultLocationTimeline];
       }
+      if (!memoryDb!.screenTimeSettings) {
+        memoryDb!.screenTimeSettings = { ...defaultScreenTimeSettings };
+      }
+      if (!memoryDb!.referral || !(memoryDb!.referral as any).logs || (memoryDb!.referral as any).logs.length === 0) {
+        memoryDb!.referral = {
+          code: memoryDb!.referral?.code || "AARAV-4F2K",
+          invited: memoryDb!.referral?.invited ?? 6,
+          premiumUnlocked: memoryDb!.referral?.premiumUnlocked ?? true,
+          leaderboardRank: memoryDb!.referral?.leaderboardRank ?? 12,
+          logs: [...defaultReferralLogs],
+        };
+      }
+      if (!memoryDb!.childChallenges || memoryDb!.childChallenges.length === 0) {
+        memoryDb!.childChallenges = [...defaultChildChallenges];
+      }
+      if (!memoryDb!.childAchievements || memoryDb!.childAchievements.length === 0) {
+        memoryDb!.childAchievements = [...defaultChildAchievements];
+      }
       return memoryDb!;
     }
   } catch (err) {
@@ -491,8 +688,10 @@ export function getChildOverview(childId = "child_01") {
   return {
     child: db.child,
     weeklyScreenTime: db.weeklyScreenTime,
+    screenTimeSettings: db.screenTimeSettings || defaultScreenTimeSettings,
     appUsage: db.appUsage,
     moodJournal: db.moodJournal,
+    referral: db.referral,
     riskAlerts: db.riskAlerts.filter((a) => a.status === "active"),
     allAlertsCount: db.riskAlerts.length,
     avatarState: db.avatarState,
@@ -742,4 +941,390 @@ export function addLocationTimelineEntry(entry: LocationTimelineRecord) {
 
   saveDb(db);
   return newEntry;
+}
+
+// ==========================================
+// Screen Time Helpers
+// ==========================================
+export function getWeeklyScreenTime() {
+  const db = getDb();
+  return db.weeklyScreenTime;
+}
+
+export function getScreenTimeSettings(): ScreenTimeSettingsRecord {
+  const db = getDb();
+  return db.screenTimeSettings || defaultScreenTimeSettings;
+}
+
+export function updateScreenTimeSettings(update: Partial<ScreenTimeSettingsRecord>) {
+  const db = getDb();
+  db.screenTimeSettings = {
+    ...(db.screenTimeSettings || defaultScreenTimeSettings),
+    ...update,
+  };
+  saveDb(db);
+  return db.screenTimeSettings;
+}
+
+export function logScreenTimeSession(params: {
+  day?: string;
+  hours: number;
+  category: "education" | "social" | "gaming" | "entertainment";
+  appName?: string;
+}) {
+  const db = getDb();
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const targetDay = params.day || dayNames[new Date().getDay()];
+
+  let dayRecord = db.weeklyScreenTime.find((d) => d.day === targetDay);
+  if (!dayRecord) {
+    dayRecord = {
+      day: targetDay,
+      hours: 0,
+      education: 0,
+      social: 0,
+      gaming: 0,
+      entertainment: 0,
+    };
+    db.weeklyScreenTime.push(dayRecord);
+  }
+
+  const addedHours = Number(params.hours) || 0.5;
+  dayRecord[params.category] = Number((dayRecord[params.category] + addedHours).toFixed(1));
+  dayRecord.hours = Number(
+    (dayRecord.education + dayRecord.social + dayRecord.gaming + dayRecord.entertainment).toFixed(1)
+  );
+
+  // If app specified, also update app usage
+  if (params.appName) {
+    simulateAppSession(params.appName, Math.round(addedHours * 60), params.category, false);
+  }
+
+  // Adjust wellbeing score slightly: +education improves, excessive gaming trims slightly
+  if (params.category === "education") {
+    db.child.wellbeingScore = Math.min(100, db.child.wellbeingScore + 1);
+  } else if (params.category === "gaming" && addedHours >= 2) {
+    db.child.wellbeingScore = Math.max(30, db.child.wellbeingScore - 1);
+  }
+
+  saveDb(db);
+  return {
+    weeklyScreenTime: db.weeklyScreenTime,
+    child: db.child,
+    appUsage: db.appUsage,
+  };
+}
+
+// ==========================================
+// App Usage Helpers
+// ==========================================
+export function getAppUsage() {
+  const db = getDb();
+  return db.appUsage;
+}
+
+export function setAppDailyLimit(appName: string, dailyLimitMinutes: number, isBlocked = false) {
+  const db = getDb();
+  const app = db.appUsage.find((a) => a.app.toLowerCase() === appName.toLowerCase());
+  if (app) {
+    app.dailyLimitMinutes = dailyLimitMinutes;
+    app.isBlocked = isBlocked;
+    saveDb(db);
+    return app;
+  }
+  return null;
+}
+
+export function simulateAppSession(
+  appName: string,
+  additionalMinutes: number,
+  category: string = "entertainment",
+  updateWeekly = true
+) {
+  const db = getDb();
+  let app = db.appUsage.find((a) => a.app.toLowerCase() === appName.toLowerCase());
+
+  if (!app) {
+    const palette = ["#EF4444", "#22C55E", "#EC4899", "#F59E0B", "#2563EB", "#06B6D4", "#8B5CF6"];
+    app = {
+      app: appName,
+      time: "0h 0m",
+      minutes: 0,
+      percentage: 0,
+      color: palette[db.appUsage.length % palette.length],
+      category,
+    };
+    db.appUsage.push(app);
+  }
+
+  app.minutes += additionalMinutes;
+  const hours = Math.floor(app.minutes / 60);
+  const mins = app.minutes % 60;
+  app.time = `${hours}h ${mins}m`;
+  if (category) app.category = category;
+
+  // Recalculate percentages
+  const totalMinutes = db.appUsage.reduce((acc, a) => acc + a.minutes, 0) || 1;
+  db.appUsage.forEach((a) => {
+    a.percentage = Math.round((a.minutes / totalMinutes) * 100);
+  });
+
+  // Sort by minutes descending
+  db.appUsage.sort((a, b) => b.minutes - a.minutes);
+
+  // If updateWeekly, also add to screen time
+  if (updateWeekly) {
+    const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const targetDay = dayNames[new Date().getDay()];
+    const dayRecord = db.weeklyScreenTime.find((d) => d.day === targetDay);
+    if (dayRecord) {
+      const addedH = Number((additionalMinutes / 60).toFixed(1));
+      const validCat: "education" | "social" | "gaming" | "entertainment" =
+        category === "gaming" ? "gaming" : category === "social" ? "social" : category === "entertainment" ? "entertainment" : "education";
+      dayRecord[validCat] = Number((dayRecord[validCat] + addedH).toFixed(1));
+      dayRecord.hours = Number(
+        (dayRecord.education + dayRecord.social + dayRecord.gaming + dayRecord.entertainment).toFixed(1)
+      );
+    }
+  }
+
+  saveDb(db);
+  return {
+    app,
+    appUsage: db.appUsage,
+    weeklyScreenTime: db.weeklyScreenTime,
+  };
+}
+
+// ==========================================
+// Mood Journal Helpers
+// ==========================================
+export function getMoodJournal() {
+  const db = getDb();
+  return db.moodJournal;
+}
+
+export function deleteMoodLog(id: string) {
+  const db = getDb();
+  const initLen = db.moodJournal.length;
+  db.moodJournal = db.moodJournal.filter((m) => m.id !== id);
+  saveDb(db);
+  return db.moodJournal.length < initLen;
+}
+
+// ==========================================
+// Referral Hub Helpers
+// ==========================================
+export function getReferralData() {
+  const db = getDb();
+  if (!db.referral.logs || db.referral.logs.length === 0) {
+    db.referral.logs = [...defaultReferralLogs];
+    saveDb(db);
+  }
+  return db.referral;
+}
+
+export function sendReferralInvite(email: string) {
+  const db = getDb();
+  if (!db.referral.logs) {
+    db.referral.logs = [...defaultReferralLogs];
+  }
+
+  const cleanEmail = email.trim().toLowerCase();
+  const existing = db.referral.logs.find((r) => r.email.toLowerCase() === cleanEmail);
+  if (existing) {
+    return {
+      success: true,
+      alreadyInvited: true,
+      referral: db.referral,
+      message: `${email} is already on your invited list!`,
+    };
+  }
+
+  const newLog: ReferralLogRecord = {
+    id: `ref_${Date.now()}`,
+    email: cleanEmail,
+    date: new Date().toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }),
+    status: "Invited",
+    reward: "Pending Trial Activation",
+  };
+
+  db.referral.logs.unshift(newLog);
+  db.referral.invited += 1;
+  if (db.referral.invited >= 5) {
+    db.referral.premiumUnlocked = true;
+  }
+
+  saveDb(db);
+  return {
+    success: true,
+    entry: newLog,
+    referral: db.referral,
+    message: `Invitation successfully dispatched to ${email}!`,
+  };
+}
+
+export function deleteReferralInvite(id: string) {
+  const db = getDb();
+  if (!db.referral.logs) return false;
+  const initialLen = db.referral.logs.length;
+  db.referral.logs = db.referral.logs.filter((r) => r.id !== id);
+  if (db.referral.logs.length < initialLen && db.referral.invited > 0) {
+    db.referral.invited = Math.max(0, db.referral.invited - 1);
+  }
+  saveDb(db);
+  return true;
+}
+
+export function claimReferralMilestone(count: number) {
+  const db = getDb();
+  if (db.referral.invited >= count) {
+    db.referral.premiumUnlocked = true;
+    saveDb(db);
+    return {
+      success: true,
+      message: `Milestone for ${count} referrals claimed! Premium active.`,
+      referral: db.referral,
+    };
+  }
+  return {
+    success: false,
+    message: `You need ${count - db.referral.invited} more referrals to unlock this tier.`,
+  };
+}
+
+// ==========================================
+// Child Companion & Dashboard Helpers
+// ==========================================
+
+export function getChildDashboardData(childId = "child_01") {
+  const db = getDb();
+  if (!db.childChallenges || db.childChallenges.length === 0) {
+    db.childChallenges = [...defaultChildChallenges];
+  }
+  if (!db.childAchievements || db.childAchievements.length === 0) {
+    db.childAchievements = [...defaultChildAchievements];
+  }
+
+  const dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  const todayDay = dayNames[new Date().getDay()];
+  const todayScreen = db.weeklyScreenTime.find((d) => d.day === todayDay) || db.weeklyScreenTime[0];
+  const screenSettings = db.screenTimeSettings || defaultScreenTimeSettings;
+
+  const hoursRemaining = Math.max(0, Number((screenSettings.dailyLimitHours - todayScreen.hours).toFixed(1)));
+  const percentScreenUsed = Math.min(100, Math.round((todayScreen.hours / screenSettings.dailyLimitHours) * 100));
+
+  return {
+    child: db.child,
+    avatarState: db.avatarState,
+    challenges: db.childChallenges,
+    achievements: db.childAchievements,
+    todayScreenTime: {
+      usedHours: todayScreen.hours,
+      limitHours: screenSettings.dailyLimitHours,
+      remainingHours: hoursRemaining,
+      percentUsed: percentScreenUsed,
+      curfewTime: screenSettings.bedtimeCurfew,
+      devicePaused: Boolean(screenSettings.devicePaused),
+    },
+    currentLocation: {
+      placeName: db.currentLocation?.placeName || "Home",
+      status: db.currentLocation?.status || "inside_safe_zone",
+    },
+    recentChat: db.chatHistory.filter((m) => m.channel === "child_coach").slice(-4),
+  };
+}
+
+export function completeChildChallenge(challengeId: string) {
+  const db = getDb();
+  if (!db.childChallenges) {
+    db.childChallenges = [...defaultChildChallenges];
+  }
+  if (!db.childAchievements) {
+    db.childAchievements = [...defaultChildAchievements];
+  }
+
+  const challenge = db.childChallenges.find((c) => c.id === challengeId);
+  if (!challenge) {
+    return { success: false, message: "Challenge not found" };
+  }
+
+  if (challenge.completed) {
+    return {
+      success: true,
+      alreadyCompleted: true,
+      message: `You already completed ${challenge.title} today!`,
+      avatarState: db.avatarState,
+      challenges: db.childChallenges,
+    };
+  }
+
+  // Mark challenge completed
+  challenge.completed = true;
+  challenge.completedAt = new Date().toISOString();
+
+  // Award reward points
+  db.avatarState.rewardPoints += challenge.points;
+  db.avatarState.moodExpression = "proud";
+  db.avatarState.activeNudge = `Outstanding work, ${db.child.name}! You finished '${challenge.title}' and claimed +${challenge.points} points! 🌟`;
+  db.avatarState.lastInteraction = new Date().toISOString();
+
+  // Check 500 point achievement
+  const ach500 = db.childAchievements.find((a) => a.id === "ach_7");
+  if (ach500) {
+    ach500.progress = `${db.avatarState.rewardPoints} / 500 pts`;
+    if (db.avatarState.rewardPoints >= 500 && !ach500.unlocked) {
+      ach500.unlocked = true;
+      ach500.unlockedAt = new Date().toISOString();
+      db.avatarState.achievementsCount += 1;
+    }
+  }
+
+  // Boost wellbeing score slightly for positive behavior
+  db.child.wellbeingScore = Math.min(100, db.child.wellbeingScore + 1);
+
+  saveDb(db);
+  return {
+    success: true,
+    message: `+${challenge.points} Points Earned! Keep shining!`,
+    challenge,
+    avatarState: db.avatarState,
+    challenges: db.childChallenges,
+    achievements: db.childAchievements,
+    rewardPoints: db.avatarState.rewardPoints,
+  };
+}
+
+export function updateAvatarCompanionState(update: Partial<AvatarStateRecord>) {
+  const db = getDb();
+  db.avatarState = {
+    ...db.avatarState,
+    ...update,
+    lastInteraction: new Date().toISOString(),
+  };
+  saveDb(db);
+  return db.avatarState;
+}
+
+export function tapAvatarCompanion() {
+  const db = getDb();
+  const tipsAndJokes = [
+    "Why did the computer catch a cold? It had too many open windows! 😂 (+5 points!)",
+    "Did you know honey never spoils? Archaeologists found 3000-year-old honey that is still edible! 🍯 (+5 points!)",
+    "Pro tip: Drinking water boosts your brain speed by 14%! Take a sip right now! 💧 (+5 points!)",
+    "What do you call a sleeping dinosaur? A dino-snore! 💤 (+5 points!)",
+    "Champions don't just game hard — they sleep well and stretch tall! 🌟 (+5 points!)",
+  ];
+
+  const randomNote = tipsAndJokes[Math.floor(Math.random() * tipsAndJokes.length)];
+  db.avatarState.rewardPoints += 5;
+  db.avatarState.lastInteraction = new Date().toISOString();
+
+  saveDb(db);
+  return {
+    success: true,
+    message: randomNote,
+    avatarState: db.avatarState,
+    rewardPoints: db.avatarState.rewardPoints,
+  };
 }
